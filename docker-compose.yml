@@ -1,0 +1,32 @@
+version: "3"
+
+services:
+  database:
+    build: ./database
+    container_name: database
+    environment:
+      - FLASK_ENV=dev
+      - DATABASE_URI=postgresql://postgres:developpassword@database-db/postgres
+    depends_on:
+      - database-db
+    volumes:
+      - "./database:/code"
+  database-db:
+    image: postgres
+    environment:
+      - POSTGRES_PASSWORD=developpassword
+  application:
+    build: ./application
+    container_name: application
+    environment:
+      - FLASK_ENV=dev
+    volumes:
+      - "./application:/code"
+  nginx:
+    build: ./nginx
+    container_name: nginx-proxy
+    ports:
+      - "8080:8080"
+    depends_on:
+      - database
+      - application
