@@ -22,11 +22,11 @@ services:
       - FLASK_ENV=dev
     volumes:
       - "./application:/code"
-  web-app:
-    build: ./web-app/
-    container_name: web-app
-    volumes:
-      - "./web-app:/code"
+  #web-app:
+   # build: ./web-app/
+    #container_name: web-app
+    #volumes:
+    #  - "./web-app:/code"
   nginx:
     build: ./nginx
     container_name: nginx-proxy
@@ -35,4 +35,4 @@ services:
     depends_on:
       - database
       - application
-      - web-app
+      #- web-app
