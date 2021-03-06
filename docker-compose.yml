@@ -15,13 +15,13 @@ services:
     image: postgres
     environment:
       - POSTGRES_PASSWORD=developpassword
-  application:
-    build: ./application
-    container_name: application
+  engine:
+    build: ./engine
+    container_name: engine
     environment:
       - FLASK_ENV=dev
     volumes:
-      - "./application:/code"
+      - "./engine:/code"
   #web-app:
    # build: ./web-app/
     #container_name: web-app
@@ -34,5 +34,5 @@ services:
       - "8080:8080"
     depends_on:
       - database
-      - application
+      - engine
       #- web-app
