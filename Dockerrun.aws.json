@@ -1,0 +1,78 @@
+{
+    "AWSEBDockerrunVersion": 2,
+    "containerDefinitions": [
+        {
+            "environment": [
+                {
+                    "name": "FLASK_ENV",
+                    "value": "dev"
+                },
+                {
+                    "name": "DATABASE_URI",
+                    "value": "postgresql://postgres:developpassword@database-db/postgres"
+                }
+            ],
+            "essential": true,
+            "mountPoints": [
+                {
+                    "containerPath": "/code",
+                    "sourceVolume": "_Database"
+                }
+            ],
+            "name": "database"
+        },
+        {
+            "environment": [
+                {
+                    "name": "POSTGRES_PASSWORD",
+                    "value": "developpassword"
+                }
+            ],
+            "essential": true,
+            "image": "postgres",
+            "name": "database-db"
+        },
+        {
+            "environment": [
+                {
+                    "name": "FLASK_ENV",
+                    "value": "dev"
+                }
+            ],
+            "essential": true,
+            "mountPoints": [
+                {
+                    "containerPath": "/code",
+                    "sourceVolume": "_Engine"
+                }
+            ],
+            "name": "engine"
+        },
+        {
+            "essential": true,
+            "name": "nginx",
+            "image": "flask-nginx-aws:latest",
+            "portMappings": [
+                {
+                    "containerPort": 8080,
+                    "hostPort": 8080
+                }
+            ]
+        }
+    ],
+    "family": "",
+    "volumes": [
+        {
+            "host": {
+                "sourcePath": "./database"
+            },
+            "name": "_Database"
+        },
+        {
+            "host": {
+                "sourcePath": "./engine"
+            },
+            "name": "_Engine"
+        }
+    ]
+}
