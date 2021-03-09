@@ -11,6 +11,10 @@ RUN pip install werkzeug==0.16.1
 RUN pip install Pillow
 RUN pip install requests
 RUN pip install uuid
+RUN pip install urllib3
+RUN apt-get update ##[edited]
+RUN apt-get install ffmpeg libsm6 libxext6  -y
+RUN pip install opencv-python
 
 ENTRYPOINT ["python"]
 CMD ["run.py"]
