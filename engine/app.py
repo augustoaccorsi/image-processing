@@ -2,7 +2,7 @@ from flask import Flask, request, jsonify, send_file
 from PIL import Image, ImageFilter
 from io import BytesIO
 import urllib, uuid, os, sys
-from face.process import Process
+from process.process import Process
 
 
 app = Flask(__name__)
