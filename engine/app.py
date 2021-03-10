@@ -92,5 +92,20 @@ def process_edge():
 
         return jsonify({'info': 'image transformed', 'status': 'okay'}), 200 
 
+@app.route("/transform/face", methods=['POST'])
+def face():
+    if request.method == 'POST':
+        image_id = request.form.get('image_id')
+        if image_id is not None:
+            file = BytesIO(urllib.request.urlopen('http://database:5000/images/'+image_id).read())
+            image = Process(file).face()
+
+            mem_file = BytesIO()
+            image.save(mem_file, "JPEG", quality=100)
+            mem_file.seek(0)
+            return send_file(mem_file, attachment_filename='_.jpg')
+
+        return jsonify({'info': 'image transformed', 'status': 'okay'}), 200 
+
 if __name__ == '__main__':
     app.run(host='0.0.0.0', debug=True)
