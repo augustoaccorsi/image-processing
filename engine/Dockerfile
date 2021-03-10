@@ -14,7 +14,6 @@ RUN pip install uuid
 RUN pip install urllib3
 RUN apt-get update ##[edited]
 RUN apt-get install ffmpeg libsm6 libxext6  -y
-RUN pip install opencv-python
 RUN pip install numpy
 
 ENTRYPOINT ["python"]

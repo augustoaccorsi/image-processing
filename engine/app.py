@@ -83,7 +83,7 @@ def process_edge():
         image_id = request.form.get('image_id')
         if image_id is not None:
             file = BytesIO(urllib.request.urlopen('http://database:5000/images/'+image_id).read())
-            image = Process(file).edge()
+            image = Process().edge(file)
 
             mem_file = BytesIO()
             image.save(mem_file, "JPEG", quality=100)
@@ -97,8 +97,27 @@ def face():
     if request.method == 'POST':
         image_id = request.form.get('image_id')
         if image_id is not None:
-            file = BytesIO(urllib.request.urlopen('http://database:5000/images/'+image_id).read())
-            image = Process(file).mandelbrot()
+
+            width = None
+            height = None
+            max_iter = None
+             
+            for command in request.query_string.split(b'&'):
+                # Split the command in a key and value
+                command_list = command.split(b'=')
+                key = command_list[0]
+                if key == b'':
+                    continue
+                value = float(command_list[1])
+
+                if key == b'width':
+                    width = int(value)
+                elif key == b'height':
+                    height = int(value)
+                elif key == b'max_iter':
+                    max_iter = int(value)
+            
+            image = Process().mandelbrot(width, height, max_iter)
 
             mem_file = BytesIO()
             image.save(mem_file, "JPEG", quality=100)
