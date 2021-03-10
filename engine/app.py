@@ -92,13 +92,13 @@ def process_edge():
 
         return jsonify({'info': 'image transformed', 'status': 'okay'}), 200 
 
-@app.route("/transform/face", methods=['POST'])
+@app.route("/transform/mandelbrot", methods=['POST'])
 def face():
     if request.method == 'POST':
         image_id = request.form.get('image_id')
         if image_id is not None:
             file = BytesIO(urllib.request.urlopen('http://database:5000/images/'+image_id).read())
-            image = Process(file).face()
+            image = Process(file).mandelbrot()
 
             mem_file = BytesIO()
             image.save(mem_file, "JPEG", quality=100)
