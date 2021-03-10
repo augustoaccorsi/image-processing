@@ -75,7 +75,7 @@ class Process:
         image = image.convert("L") 
         
         # Detecting Edges on the Image using the argument ImageFilter.FIND_EDGES 
-        image = image.filter(ImageFilter.EDGE_ENHANCE_MORE) 
+        image = image.filter(ImageFilter.FIND_EDGES) 
         
         # Saving the Image Under the name Edge_Sample.png 
         return image
