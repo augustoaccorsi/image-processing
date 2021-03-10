@@ -1,8 +1,8 @@
 from flask import Flask, request, jsonify, send_file
 from PIL import Image, ImageFilter
 from io import BytesIO
-import urllib
-from face.detection import Detection
+import urllib, uuid, os, sys
+from face.process import Process
 
 
 app = Flask(__name__)
@@ -77,17 +77,20 @@ def transform_image():
 def healthcheck():
     return jsonify({'service': 'image-transform', 'status': 'okay'}), 200
 
-@app.route("/transform/face", methods=['POST'])
-def face_detection():
+@app.route("/transform/edge", methods=['POST'])
+def process_edge():
     if request.method == 'POST':
         image_id = request.form.get('image_id')
-        print(image_id)
         if image_id is not None:
             file = BytesIO(urllib.request.urlopen('http://database:5000/images/'+image_id).read())
-            image = Image.open(file).convert('RGB')
-            Detection(image).detect()       
-        
-        return jsonify({'info': 'faces detected on image '+image_id, 'status': 'okay'}), 200 
+            image = Process(file).edge()
+
+            mem_file = BytesIO()
+            image.save(mem_file, "JPEG", quality=100)
+            mem_file.seek(0)
+            return send_file(mem_file, attachment_filename='_.jpg')
+
+        return jsonify({'info': 'image transformed', 'status': 'okay'}), 200 
 
 if __name__ == '__main__':
     app.run(host='0.0.0.0', debug=True)
