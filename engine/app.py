@@ -1,8 +1,11 @@
 from flask import Flask, request, jsonify, send_file
 from PIL import Image, ImageFilter
 from io import BytesIO
-import urllib, uuid, os, sys
-from process.process import Process
+import urllib
+import urllib.parse
+import urllib.request
+import json, sys
+from process.Process import Process
 
 
 app = Flask(__name__)
@@ -95,36 +98,42 @@ def process_edge():
 @app.route("/transform/mandelbrot", methods=['POST'])
 def face():
     if request.method == 'POST':
-        image_id = request.form.get('image_id')
-        if image_id is not None:
 
-            width = None
-            height = None
-            max_iter = None
-             
-            for command in request.query_string.split(b'&'):
-                # Split the command in a key and value
-                command_list = command.split(b'=')
-                key = command_list[0]
-                if key == b'':
-                    continue
-                value = float(command_list[1])
-
-                if key == b'width':
-                    width = int(value)
-                elif key == b'height':
-                    height = int(value)
-                elif key == b'max_iter':
-                    max_iter = int(value)
+        width = None
+        height = None
+        max_iter = None
             
-            image = Process().mandelbrot(width, height, max_iter)
+        for command in request.query_string.split(b'&'):
+            # Split the command in a key and value
+            command_list = command.split(b'=')
+            key = command_list[0]
+            if key == b'':
+                continue
+            value = float(command_list[1])
 
-            mem_file = BytesIO()
-            image.save(mem_file, "JPEG", quality=100)
-            mem_file.seek(0)
-            return send_file(mem_file, attachment_filename='_.jpg')
+            if key == b'width':
+                width = int(value)
+            elif key == b'height':
+                height = int(value)
+            elif key == b'max_iter':
+                max_iter = int(value)
+        
+        image = Process().mandelbrot(width, height, max_iter)
 
-        return jsonify({'info': 'image transformed', 'status': 'okay'}), 200 
+        mem_file = BytesIO()
+        image.save(mem_file, "JPEG", quality=100)
+        mem_file.seek(0)
+        return send_file(mem_file, attachment_filename='_.jpg')
+
+        value = ({'image' : image })
+        
+        #response = urllib.request.urlopen('http://database:5000/images/', data=value).post()
+
+
+        #req = urllib.request.Request(url='http://database:5000/images/', data=json.dump(value, sys.stdout).encode('utf-8'), method='POST')
+        #res = urllib.request.urlopen(req)
+        
+        #return jsonify({res}), 201 
 
 if __name__ == '__main__':
     app.run(host='0.0.0.0', debug=True)
