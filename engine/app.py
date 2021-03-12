@@ -1,16 +1,8 @@
 from flask import Flask, request, jsonify, send_file
 from PIL import Image, ImageFilter
 from io import BytesIO
-import urllib
-import urllib.parse
-import urllib.request
-import json, sys
-import requests
-from contextlib import closing
-from requests_toolbelt import MultipartEncoder
+import urllib, requests, uuid
 from process.Process import Process
-import requests
-import uuid
 
 
 app = Flask(__name__)
@@ -126,60 +118,17 @@ def face():
         image = Process().mandelbrot(width, height, max_iter)
 
         mem_file = BytesIO()
-        image.save(mem_file, "JPEG", quality=100)
+        image.save(mem_file, "PNG", quality=100)
         mem_file.seek(0)
-
-
-      #  payload = MultipartEncoder({'uploadedFile': ('This is my file.mpg', mem_file, 'application/octet-stream' )})
-
-        #value = ({'image' : mem_file })
-
-        #response = urllib.request.urlopen('http://database:5000/images/', data=value).post()
-
-        #print(response)
-
-        # urllib.request.urlopen('http://database:5000/images', data=bytes(data, encoding='utf8')).read()
-        '''
-        flask.debughelpers.DebugFilesKeyError: You tried to access the file "image" in the request.files dictionary but it does not exist.
-        The mimetype for the request is "application/x-www-form-urlencoded" instead of "multipart/form-data" which means that no file contents were transmitted. 
-        To fix this error you should provide enctype="multipart/form-data" in your form.
-        '''
-        print(mem_file)
         
-        form_data = {'image': ('mandelbrot'+str(uuid.uuid4().hex), mem_file)}
+        id = 'mandelbrot'+str(uuid.uuid4().hex)
 
-        r = requests.post(url='http://database:5000/images', files=form_data)
-       
-        print(r)    
-
-
-
-       # urllib.request.urlopen('http://database:5000/images', urllib.parse.urlencode({'image' : mem_file }).encode()).read().decode()
-           
+        requests.post(url='http://database:5000/images', files={'image': ('file.PNG', mem_file, 'image/png')}, params={'id': id})
         
-        '''
-        data = data.encode('ascii') # data should be bytes
-        req = urllib.request.Request('http://database:5000/images/', data)
-       
-        with urllib.request.urlopen(req) as response:
-            the_page = response.read()
-        '''
-        #req = urllib.request.Request(url='http://database:5000/images/', data={'image' : mem_file }, method='POST').read()
-        #   res = urllib.request.urlopen(req)
- 
-        
-        return send_file(mem_file, attachment_filename='_.jpg')
-
-
-        
-        
-        #response = urllib.request.urlopen('http://database:5000/images/', data=value).post()
-
-
-        #req = urllib.request.Request(url='http://database:5000/images/', data=json.dump(value, sys.stdout).encode('utf-8'), method='POST')
-        #res = urllib.request.urlopen(req)
-        
-        #return jsonify({res}), 201 
+        return jsonify({
+            "image_id": id,
+            "filename": id+'.png'
+        }), 201
 
 if __name__ == '__main__':
     app.run(host='0.0.0.0', debug=True)
