@@ -15,6 +15,7 @@ RUN pip install urllib3
 RUN apt-get update ##[edited]
 RUN apt-get install ffmpeg libsm6 libxext6  -y
 RUN pip install numpy
+RUN pip install requests-toolbelt
 
 ENTRYPOINT ["python"]
 CMD ["run.py"]
