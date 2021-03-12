@@ -30,15 +30,21 @@ def allowed_file(filename):
 def upload_image():
     if request.method == 'POST':
 
-        print(request.files)
-        
-        # Create a uuid to rename the file to
-        image_id = uuid.uuid4().hex
+        image_id = 0
+
+        for command in request.query_string.split(b'&'):
+            command_list = command.split(b'=')
+            value = command_list[1]
+            key = command_list[0]
+            if key == b'id':
+                image_id = str(value)[2:]
+
+        if image_id == 0:
+            image_id = uuid.uuid4().hex
 
         # Check the file is an allowed type and store
         try:
             file = request.files['image']
-
         except:
             return jsonify({'error': 'No image found with the \'image\' key'}), 400
 
