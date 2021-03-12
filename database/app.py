@@ -29,12 +29,16 @@ def allowed_file(filename):
 @app.route("/images", methods=['POST'])
 def upload_image():
     if request.method == 'POST':
+
+        print(request.files)
+        
         # Create a uuid to rename the file to
         image_id = uuid.uuid4().hex
 
         # Check the file is an allowed type and store
         try:
             file = request.files['image']
+
         except:
             return jsonify({'error': 'No image found with the \'image\' key'}), 400
 
