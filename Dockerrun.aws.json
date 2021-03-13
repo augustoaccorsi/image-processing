@@ -2,6 +2,11 @@
     "AWSEBDockerrunVersion": 2,
     "containerDefinitions": [
         {
+            "name": "database",
+            "image": "augustoaccorsi/database-aws:latest",
+            "essential": true,
+            "memory": 200,
+            "cpu": 1,
             "environment": [
                 {
                     "name": "FLASK_ENV",
@@ -12,67 +17,54 @@
                     "value": "postgresql://postgres:developpassword@database-db/postgres"
                 }
             ],
-            "essential": true,
-            "mountPoints": [
-                {
-                    "containerPath": "/code",
-                    "sourceVolume": "_Database"
-                }
-            ],
-            "name": "database"
+            "links": [
+                "database-db"
+            ]
         },
         {
+            "name": "database-db",
+            "image": "augustoaccorsi/postgres-aws:latest",
+            "essential": true,
+            "memory": 200,
+            "cpu": 1,
             "environment": [
                 {
                     "name": "POSTGRES_PASSWORD",
                     "value": "developpassword"
                 }
-            ],
-            "essential": true,
-            "image": "postgres",
-            "name": "database-db"
+            ]
         },
         {
+            "name": "engine",
+            "image": "augustoaccorsi/engine-aws:latest",
+            "essential": true,
+            "memory": 200,
+            "cpu": 1,
             "environment": [
                 {
                     "name": "FLASK_ENV",
                     "value": "dev"
                 }
-            ],
-            "essential": true,
-            "mountPoints": [
-                {
-                    "containerPath": "/code",
-                    "sourceVolume": "_Engine"
-                }
-            ],
-            "name": "engine"
+            ]
         },
         {
-            "essential": true,
             "name": "nginx",
-            "image": "flask-nginx-aws:latest",
+            "image": "augustoaccorsi/nginx-aws:latest",
+            "environment": [],
+            "essential": true,
+            "memory": 200,
+            "mountPoints": [],
             "portMappings": [
                 {
+                    "hostPort": 8080,
                     "containerPort": 8080,
-                    "hostPort": 8080
+                    "protocol": "tcp"
                 }
+            ],
+            "links": [
+                "database",
+                "engine"
             ]
-        }
-    ],
-    "family": "",
-    "volumes": [
-        {
-            "host": {
-                "sourcePath": "./database"
-            },
-            "name": "_Database"
-        },
-        {
-            "host": {
-                "sourcePath": "./engine"
-            },
-            "name": "_Engine"
         }
     ]
 }
