@@ -17,7 +17,7 @@ after_success:
       docker push $DOCKER_USERNAME/engine-aws ;
       docker push $DOCKER_USERNAME/nginx-nginx-aws ;
 
-fi
+fi:
 
 deploy:
   provider: elasticbeanstalk
