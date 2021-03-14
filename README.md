@@ -1,3 +1,5 @@
+[![Build Status](https://travis-ci.com/augustoaccorsi/microservices.svg?branch=main)](https://travis-ci.com/augustoaccorsi/microservices)
+
 # Image Processing Microservice
 This project aims to be a simple image processing microservice for academic purpose.
 
