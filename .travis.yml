@@ -3,7 +3,7 @@ services:
   - docker
 before_script: pip install docker-compose
 script:
-  - docker-compose run
+  - docker-compose up --build
 after_success:
   - if [[ "$TRAVIS_BRANCH" == "aws_deployment" ]]; then
       docker login -u $DOCKER_USERNAME -p $DOCKER_PASSWORD ;
