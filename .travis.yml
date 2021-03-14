@@ -5,7 +5,7 @@ before_script: pip install docker-compose
 #script:
 #  - docker-compose up --build
 after_success:
-  - if [[ "$TRAVIS_BRANCH" == "aws_deployment" ]]; then
+  - if [[ "$TRAVIS_BRANCH" == "main" ]]; then
       docker login -u $DOCKER_USERNAME -p $DOCKER_PASSWORD ;
       docker-compose build ;
       docker tag database $DOCKER_USERNAME/database-aws ;
@@ -15,7 +15,7 @@ after_success:
       docker push $DOCKER_USERNAME/database-aws ;
       docker push $DOCKER_USERNAME/postgres-aws;
       docker push $DOCKER_USERNAME/engine-aws ;
-      docker push $DOCKER_USERNAME/nginx-nginx-aws ;
+      docker push $DOCKER_USERNAME/nginx-aws ;
 
 fi:
 
