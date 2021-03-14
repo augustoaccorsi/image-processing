@@ -19,6 +19,12 @@
             ],
             "links": [
                 "database-db"
+            ],
+            "mountPoints": [
+                {
+                    "sourceVolume": "database",
+                    "containerPath": "./database:/code"
+                }
             ]
         },
         {
@@ -44,6 +50,12 @@
                 {
                     "name": "FLASK_ENV",
                     "value": "dev"
+                }
+            ],
+            "mountPoints": [
+                {
+                    "sourceVolume": "engine",
+                    "containerPath": "./engine:/code"
                 }
             ]
         },
