@@ -1,19 +1,5 @@
 {
     "AWSEBDockerrunVersion": 2,
-    "volumes": [
-        {
-            "name": "database",
-            "host": {
-                "sourcePath": "/var/app/current/database"
-            }
-        },
-        {
-            "name": "engine",
-            "host": {
-                "sourcePath": "/var/app/current/proxy/engine"
-            }
-        }
-    ],
     "containerDefinitions": [
         {
             "name": "database",
@@ -33,12 +19,6 @@
             ],
             "links": [
                 "database-db"
-            ],
-            "mountPoints": [
-                {
-                    "sourceVolume": "database",
-                    "containerPath": "./database:/code"
-                }
             ]
         },
         {
@@ -64,12 +44,6 @@
                 {
                     "name": "FLASK_ENV",
                     "value": "dev"
-                }
-            ],
-            "mountPoints": [
-                {
-                    "sourceVolume": "engine",
-                    "containerPath": "./engine:/code"
                 }
             ]
         },
