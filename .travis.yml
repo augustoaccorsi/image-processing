@@ -2,8 +2,8 @@ language: python
 services:
   - docker
 before_script: pip install docker-compose
-#script:
-#  - docker-compose up --build
+script:
+  - docker-compose build
 after_success:
   - if [[ "$TRAVIS_BRANCH" == "main" ]]; then
       docker login -u $DOCKER_USERNAME -p $DOCKER_PASSWORD ;
