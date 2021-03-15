@@ -73,9 +73,9 @@ def transform_image():
         mem_file.seek(0)
         return send_file(mem_file, attachment_filename='_.jpg')
 
-@app.route("/transform/healthcheck")
+@app.route("/transform/up")
 def healthcheck():
-    return jsonify({'service': 'image-transform', 'status': 'okay'}), 200
+    return jsonify({'service': 'engine', 'status': 'okay'}), 200
 
 @app.route("/transform/edge", methods=['GET'])
 def process_edge():

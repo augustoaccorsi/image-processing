@@ -140,6 +140,6 @@ def single_image(image_name):
         mem_file.seek(0)
         return send_file(mem_file, attachment_filename=image_id+image_ext)
 
-@app.route("/images/healthcheck")
+@app.route("/images/up")
 def healthcheck():
-    return jsonify({'service': 'image-storage', 'status': 'okay'}), 200
+    return jsonify({'service': 'database', 'status': 'okay'}), 200
