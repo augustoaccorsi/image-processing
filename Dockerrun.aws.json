@@ -1,5 +1,19 @@
 {
     "AWSEBDockerrunVersion": 2,
+    "volumes": [
+        {
+            "name": "database",
+            "host": {
+                "sourcePath": "/var/app/current/database"
+            }
+        },
+        {
+            "name": "engine",
+            "host": {
+                "sourcePath": "/var/app/current/proxy/engine"
+            }
+        }
+    ],
     "containerDefinitions": [
         {
             "name": "database",
@@ -22,6 +36,7 @@
             ],
             "mountPoints": [
                 {
+                    "sourceVolume": "database",
                     "containerPath": "./database:/code"
                 }
             ]
@@ -53,6 +68,7 @@
             ],
             "mountPoints": [
                 {
+                    "sourceVolume": "engine",
                     "containerPath": "./engine:/code"
                 }
             ]
