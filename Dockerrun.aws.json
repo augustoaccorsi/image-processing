@@ -22,7 +22,6 @@
             ],
             "mountPoints": [
                 {
-                    "sourceVolume": "database",
                     "containerPath": "./database:/code"
                 }
             ]
@@ -54,7 +53,6 @@
             ],
             "mountPoints": [
                 {
-                    "sourceVolume": "engine",
                     "containerPath": "./engine:/code"
                 }
             ]
