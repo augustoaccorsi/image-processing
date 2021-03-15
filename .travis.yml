@@ -23,7 +23,7 @@ deploy:
   provider: elasticbeanstalk
   region: us-east-1
   app: microservice-tcc
-  env: Microservicetcc-env
+  env: Microservicetcc-env-1
   bucket-name: elasticbeanstalk-us-east-1-571785655335
   bucket-path: microservice-tcc
   on:
