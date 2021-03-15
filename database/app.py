@@ -29,15 +29,47 @@ def allowed_file(filename):
 @app.route("/images", methods=['POST'])
 def upload_image():
     if request.method == 'POST':
+        # Create a uuid to rename the file to
+        image_id = uuid.uuid4().hex
+
+        # Check the file is an allowed type and store
+        try:
+            file = request.files['image']
+        except:
+            return jsonify({'error': 'No image found with the \'image\' key'}), 400
+
+        if not allowed_file(file.filename):
+            return jsonify({'error': 'This file type is not allowed'}), 400
+
+        try:
+            filename = images.save(file, name=image_id+'.')
+        except:
+            return jsonify({'error': 'Could not store the image'}), 500
+
+        _, image_ext = os.path.splitext(filename)
+
+        # Add the metadata entry to the db
+        image_metadata = ImageMetadata(id=image_id, file_ext=image_ext)
+        db.session.add(image_metadata)
+        db.session.commit()
+
+        return jsonify({
+            "image_id": image_id,
+            "filename": filename
+        }), 201
+
+@app.route("/images/engine", methods=['POST'])
+def upload_image_from_engine():
+    if request.method == 'POST':
 
         image_id = 0
-
+    
         for command in request.query_string.split(b'&'):
             command_list = command.split(b'=')
             value = command_list[1]
             key = command_list[0]
             if key == b'id':
-                image_id = str(value)[2:]
+                image_id = str(value)[2:][:-1]
 
         if image_id == 0:
             image_id = uuid.uuid4().hex

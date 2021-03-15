@@ -77,20 +77,39 @@ def transform_image():
 def healthcheck():
     return jsonify({'service': 'image-transform', 'status': 'okay'}), 200
 
-@app.route("/transform/edge", methods=['POST'])
+@app.route("/transform/edge", methods=['GET'])
 def process_edge():
-    if request.method == 'POST':
-        image_id = request.form.get('image_id')
-        if image_id is not None:
+    if request.method == 'GET':
+
+        for command in request.query_string.split(b'&'):
+            # Split the command in a key and value
+            command_list = command.split(b'=')
+            key = command_list[0]
+            if key == b'':
+                continue
+            value = command_list[1]
+
+            if key == b'image_id':
+                image_id = str(value)[2:]
+
+        if image_id is not None:    
             file = BytesIO(urllib.request.urlopen('http://database:5000/images/'+image_id).read())
             image = Process().edge(file)
 
             mem_file = BytesIO()
             image.save(mem_file, "JPEG", quality=100)
             mem_file.seek(0)
-            return send_file(mem_file, attachment_filename='_.jpg')
 
-        return jsonify({'info': 'image transformed', 'status': 'okay'}), 200 
+            id = str(uuid.uuid4().hex)
+
+            requests.post(url='http://database:5000/images/engine', files={'image': ('file.PNG', mem_file, 'image/png')}, params={'id': id})
+            
+            return jsonify({
+                "image_id": id,
+                "filename": id+'.png'
+            }), 201
+
+        return jsonify({"error": "image_id "+str(image_id)+" not found"}), 404
 
 @app.route("/transform/mandelbrot", methods=['POST'])
 def face():
@@ -121,9 +140,9 @@ def face():
         image.save(mem_file, "PNG", quality=100)
         mem_file.seek(0)
         
-        id = 'mandelbrot'+str(uuid.uuid4().hex)
+        id = str(uuid.uuid4().hex)
 
-        requests.post(url='http://database:5000/images', files={'image': ('file.PNG', mem_file, 'image/png')}, params={'id': id})
+        requests.post(url='http://database:5000/images/engine', files={'image': ('file.PNG', mem_file, 'image/png')}, params={'id': id})
         
         return jsonify({
             "image_id": id,
