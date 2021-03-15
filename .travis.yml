@@ -3,7 +3,6 @@ services:
   - docker
 before_script: pip install docker-compose
 script:
-
   - docker-compose build
 after_success:
   - if [[ "$TRAVIS_BRANCH" == "main" ]]; then
