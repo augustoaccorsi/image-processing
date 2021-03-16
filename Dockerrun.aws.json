@@ -30,6 +30,12 @@
             ],
             "links": [
                 "database-db"
+            ],
+            "portMappings": [
+              {
+                "hostPort": 5000,
+                "containerPort": 5000
+              }
             ]
         },
         {
@@ -42,6 +48,12 @@
                     "name": "FLASK_ENV",
                     "value": "dev"
                 }
+            ],
+            "portMappings": [
+              {
+                "hostPort": 5000,
+                "containerPort": 5000
+              }
             ]
         },
         {
