@@ -39,24 +39,6 @@
             ]
         },
         {
-            "name": "engine",
-            "image": "augustoaccorsi/engine-aws:latest",
-            "essential": true,
-            "memory": 200,
-            "environment": [
-                {
-                    "name": "FLASK_ENV",
-                    "value": "dev"
-                }
-            ],
-            "portMappings": [
-              {
-                "hostPort": 9000,
-                "containerPort": 9000
-              }
-            ]
-        },
-        {
             "name": "nginx",
             "image": "augustoaccorsi/nginx-aws:latest",
             "essential": true,
@@ -68,8 +50,7 @@
                 }
             ],
             "links": [
-                "database",
-                "engine"
+                "database"
             ]
         }
     ]
