@@ -3,7 +3,7 @@
     "containerDefinitions": [
         {
             "name": "database-db",
-            "image": "571785655335.dkr.ecr.us-east-1.amazonaws.com/augusto-accorsi-tcc/database-db:latest",
+            "image": "postgres",
             "essential": true,
             "memory": 200,
             "environment": [
@@ -15,7 +15,7 @@
         },
         {
             "name": "database",
-            "image": "571785655335.dkr.ecr.us-east-1.amazonaws.com/augusto-accorsi-tcc/database:latest",
+            "image": "augustoaccorsi/database-aws:latest",
             "essential": true,
             "memory": 200,
             "environment": [
@@ -34,7 +34,7 @@
         },
         {
             "name": "engine",
-            "image": "571785655335.dkr.ecr.us-east-1.amazonaws.com/augusto-accorsi-tcc/engine:latest",
+            "image": "augustoaccorsi/engine-aws:latest",
             "essential": true,
             "memory": 200,
             "environment": [
@@ -46,7 +46,7 @@
         },
         {
             "name": "nginx",
-            "image": "571785655335.dkr.ecr.us-east-1.amazonaws.com/augusto-accorsi-tcc/nginx:latest",
+            "image": "augustoaccorsi/nginx-aws:latest",
             "essential": true,
             "memory": 200,
             "portMappings": [

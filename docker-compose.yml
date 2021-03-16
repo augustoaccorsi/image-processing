@@ -3,6 +3,7 @@ version: "3"
 services:
   database-db:
     image: postgres
+    container_name: postgres
     environment:
       - POSTGRES_PASSWORD=developpassword
   database:
