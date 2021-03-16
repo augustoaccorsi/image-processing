@@ -1,6 +1,10 @@
 version: "3"
 
 services:
+  database-db:
+    image: postgres
+    environment:
+      - POSTGRES_PASSWORD=developpassword
   database:
     build: ./database
     container_name: database
@@ -11,10 +15,6 @@ services:
       - database-db
     volumes:
       - "./database:/code"
-  database-db:
-    image: postgres
-    environment:
-      - POSTGRES_PASSWORD=developpassword
   engine:
     build: ./engine
     container_name: engine
@@ -22,17 +22,11 @@ services:
       - FLASK_ENV=dev
     volumes:
       - "./engine:/code"
-  #web-app:
-   # build: ./web-app/
-    #container_name: web-app
-    #volumes:
-    #  - "./web-app:/code"
   nginx:
     build: ./nginx
-    container_name: nginx-proxy
+    container_name: nginx
     ports:
       - "8080:8080"
     depends_on:
       - database
       - engine
-      #- web-app
