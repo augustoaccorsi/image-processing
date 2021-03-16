@@ -2,8 +2,20 @@
     "AWSEBDockerrunVersion": 2,
     "containerDefinitions": [
         {
+            "name": "database-db",
+            "image": "571785655335.dkr.ecr.us-east-1.amazonaws.com/augusto-accorsi-tcc/database-db:latest",
+            "essential": true,
+            "memory": 200,
+            "environment": [
+                {
+                    "name": "POSTGRES_PASSWORD",
+                    "value": "developpassword"
+                }
+            ]
+        },
+        {
             "name": "database",
-            "image": "571785655335.dkr.ecr.us-east-1.amazonaws.com/augusto-accorsi-tcc:database",
+            "image": "571785655335.dkr.ecr.us-east-1.amazonaws.com/augusto-accorsi-tcc/database:latest",
             "essential": true,
             "memory": 200,
             "environment": [
@@ -21,20 +33,8 @@
             ]
         },
         {
-            "name": "database-db",
-            "image": "571785655335.dkr.ecr.us-east-1.amazonaws.com/augusto-accorsi-tcc:postgres",
-            "essential": true,
-            "memory": 200,
-            "environment": [
-                {
-                    "name": "POSTGRES_PASSWORD",
-                    "value": "developpassword"
-                }
-            ]
-        },
-        {
             "name": "engine",
-            "image": "571785655335.dkr.ecr.us-east-1.amazonaws.com/augusto-accorsi-tcc:engine",
+            "image": "571785655335.dkr.ecr.us-east-1.amazonaws.com/augusto-accorsi-tcc/engine:latest",
             "essential": true,
             "memory": 200,
             "environment": [
@@ -46,14 +46,13 @@
         },
         {
             "name": "nginx",
-            "image": "571785655335.dkr.ecr.us-east-1.amazonaws.com/augusto-accorsi-tcc:nginx",
+            "image": "571785655335.dkr.ecr.us-east-1.amazonaws.com/augusto-accorsi-tcc/nginx:latest",
             "essential": true,
             "memory": 200,
             "portMappings": [
                 {
                     "hostPort": 8080,
-                    "containerPort": 8080,
-                    "protocol": "tcp"
+                    "containerPort": 8080
                 }
             ],
             "links": [
