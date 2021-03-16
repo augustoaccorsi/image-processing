@@ -47,8 +47,8 @@
         {
             "name": "nginx",
             "image": "571785655335.dkr.ecr.us-east-1.amazonaws.com/augusto-accorsi-tcc:nginx",
-            "environment": [],
             "essential": true,
+            "memory": 200,
             "portMappings": [
                 {
                     "hostPort": 8080,
