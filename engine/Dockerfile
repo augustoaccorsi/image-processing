@@ -16,6 +16,7 @@ RUN apt-get update ##[edited]
 RUN apt-get install ffmpeg libsm6 libxext6  -y
 RUN pip install numpy
 RUN pip install requests-toolbelt
+RUN pip install gunicorn
 
 ENTRYPOINT ["python"]
 CMD ["run.py"]

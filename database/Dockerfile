@@ -12,6 +12,7 @@ RUN pip install Pillow
 RUN pip install requests
 RUN pip install uuid
 RUN pip install psycopg2-binary
+RUN pip install gunicorn
 
 ENTRYPOINT ["python"]
 CMD ["run.py"]
