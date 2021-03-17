@@ -143,3 +143,7 @@ def single_image(image_name):
 @app.route("/images/up")
 def healthcheck():
     return jsonify({'service': 'database', 'status': 'okay'}), 200
+
+@app.route("/")
+def heartbeat():
+    return jsonify({'database heartbeat': 'okay', 'engine heartbeat': 'okay'}), 200

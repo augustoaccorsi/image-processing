@@ -39,7 +39,7 @@ def transform_image():
 
         image_id = request.form.get('image_id')
         if image_id is not None:
-            file = BytesIO(urllib.request.urlopen('http://database:5000/images/'+image_id).read())
+            file = BytesIO(urllib.request.urlopen('http://database:5001/images/'+image_id).read())
             image = Image.open(file)
 
         if image is None:
@@ -93,7 +93,7 @@ def process_edge():
                 image_id = str(value)[2:]
 
         if image_id is not None:    
-            file = BytesIO(urllib.request.urlopen('http://database:5000/images/'+image_id).read())
+            file = BytesIO(urllib.request.urlopen('http://database:5001/images/'+image_id).read())
             image = Process().edge(file)
 
             mem_file = BytesIO()
@@ -102,7 +102,7 @@ def process_edge():
 
             id = str(uuid.uuid4().hex)
 
-            requests.post(url='http://database:5000/images/engine', files={'image': ('file.PNG', mem_file, 'image/png')}, params={'id': id})
+            requests.post(url='http://database:5001/images/engine', files={'image': ('file.PNG', mem_file, 'image/png')}, params={'id': id})
             
             return jsonify({
                 "image_id": id,
@@ -142,7 +142,7 @@ def face():
         
         id = str(uuid.uuid4().hex)
 
-        requests.post(url='http://database:5000/images/engine', files={'image': ('file.PNG', mem_file, 'image/png')}, params={'id': id})
+        requests.post(url='http://database:5001/images/engine', files={'image': ('file.PNG', mem_file, 'image/png')}, params={'id': id})
         
         return jsonify({
             "image_id": id,
