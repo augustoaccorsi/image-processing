@@ -9,11 +9,9 @@ after_success:
       docker login -u $DOCKER_USERNAME -p $DOCKER_PASSWORD ;
       docker-compose build ;
       docker tag database $DOCKER_USERNAME/database-aws ;
-      docker tag database-db $DOCKER_USERNAME/postgres-aws ;
       docker tag engine $DOCKER_USERNAME/engine-aws ;
       docker tag nginx $DOCKER_USERNAME/nginx-aws ;
       docker push $DOCKER_USERNAME/database-aws ;
-      docker push $DOCKER_USERNAME/postgres-aws;
       docker push $DOCKER_USERNAME/engine-aws ;
       docker push $DOCKER_USERNAME/nginx-aws ;
 

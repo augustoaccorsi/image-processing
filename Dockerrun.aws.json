@@ -6,6 +6,13 @@
             "image": "postgres",
             "essential": true,
             "memory": 200,
+            "portMappings": [
+                {
+                    "hostPort": 5432,
+                    "containerPort": 5432,
+                    "protocol": "tcp"
+                }
+            ],
             "environment": [
                 {
                     "name": "POSTGRES_PASSWORD",

@@ -6,6 +6,8 @@ services:
     container_name: postgres
     environment:
       - POSTGRES_PASSWORD=developpassword
+    ports:
+      - "5432:5432"
   database:
     build: ./database
     container_name: database
