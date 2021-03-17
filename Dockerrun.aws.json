@@ -18,6 +18,12 @@
             "image": "augustoaccorsi/database-aws:latest",
             "essential": true,
             "memory": 200,
+            "portMappings": [
+                {
+                    "hostPort": 5001,
+                    "containerPort": 5001
+                }
+            ],
             "environment": [
                 {
                     "name": "FLASK_ENV",
@@ -37,6 +43,12 @@
             "image": "augustoaccorsi/engine-aws:latest",
             "essential": true,
             "memory": 200,
+            "portMappings": [
+                {
+                    "hostPort": 5000,
+                    "containerPort": 5000
+                }
+            ],
             "environment": [
                 {
                     "name": "FLASK_ENV",
