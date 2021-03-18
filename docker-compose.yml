@@ -5,15 +5,15 @@ services:
     image: postgres
     container_name: postgres
     environment:
-      - POSTGRES_PASSWORD=developpassword
+      - POSTGRES_PASSWORD=productionpassword
     ports:
       - "5432:5432"
   database:
     build: ./database
     container_name: database
     environment:
-      - FLASK_ENV=dev
-      - DATABASE_URI=postgresql://postgres:developpassword@database-db/postgres
+      - FLASK_ENV=prod
+      - DATABASE_URI=postgresql://postgres:productionpassword@database-db/postgres
     depends_on:
       - database-db
     volumes:
@@ -26,7 +26,7 @@ services:
     build: ./engine
     container_name: engine
     environment:
-      - FLASK_ENV=dev
+      - FLASK_ENV=prod
     volumes:
       - "./engine:/code"
     expose:
