@@ -1,5 +1,6 @@
-FROM nginx
-COPY ./nginx.conf /etc/nginx/conf.d
+FROM nginx:latest
+
+COPY nginx.conf /etc/nginx/conf.d/
 
 EXPOSE 80
 
