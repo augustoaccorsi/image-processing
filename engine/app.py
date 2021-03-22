@@ -1,7 +1,7 @@
 from flask import Flask, request, jsonify, send_file
 from PIL import Image, ImageFilter
 from io import BytesIO
-import urllib, requests, uuid
+import urllib, requests, uuid, os
 from process.Process import Process
 
 
@@ -39,7 +39,10 @@ def transform_image():
 
         image_id = request.form.get('image_id')
         if image_id is not None:
-            file = BytesIO(urllib.request.urlopen('http://augusto-accorsi-microservice-tcc.sa-east-1.elasticbeanstalk.com:5001/database/'+image_id).read())
+            if os.environ['FLASK_ENV'] == 'prod':
+                file = BytesIO(urllib.request.urlopen('http://augusto-accorsi-microservice-tcc.sa-east-1.elasticbeanstalk.com:5001/database/'+image_id).read())
+            else:
+                file = BytesIO(urllib.request.urlopen('http://database:5001/database/'+image_id).read())
             image = Image.open(file)
 
         if image is None:
@@ -92,8 +95,11 @@ def process_edge():
             if key == b'image_id':
                 image_id = str(value)[2:]
 
-        if image_id is not None:    
-            file = BytesIO(urllib.request.urlopen('http://augusto-accorsi-microservice-tcc.sa-east-1.elasticbeanstalk.com:5001/database/'+image_id).read())
+        if image_id is not None:
+            if os.environ['FLASK_ENV'] == 'prod':    
+                file = BytesIO(urllib.request.urlopen('http://augusto-accorsi-microservice-tcc.sa-east-1.elasticbeanstalk.com:5001/database/'+image_id).read())
+            else:
+                file = BytesIO(urllib.request.urlopen('http://database:5001/database/'+image_id).read())
             image = Process().edge(file)
 
             mem_file = BytesIO()
@@ -102,7 +108,11 @@ def process_edge():
 
             id = str(uuid.uuid4().hex)
 
-            requests.post(url='http://augusto-accorsi-microservice-tcc.sa-east-1.elasticbeanstalk.com:5001/database/engine', files={'image': ('file.PNG', mem_file, 'image/png')}, params={'id': id})
+            
+            if os.environ['FLASK_ENV'] == 'prod':  
+                requests.post(url='http://augusto-accorsi-microservice-tcc.sa-east-1.elasticbeanstalk.com:5001/database/engine', files={'image': ('file.PNG', mem_file, 'image/png')}, params={'id': id})
+            else:
+                requests.post(url='http://database:5001/database/engine', files={'image': ('file.PNG', mem_file, 'image/png')}, params={'id': id})
             
             return jsonify({
                 "image_id": id,
@@ -142,7 +152,10 @@ def face():
         
         id = str(uuid.uuid4().hex)
 
-        requests.post(url='http://augusto-accorsi-microservice-tcc.sa-east-1.elasticbeanstalk.com:5001/database/engine', files={'image': ('file.PNG', mem_file, 'image/png')}, params={'id': id})
+        if os.environ['FLASK_ENV'] == 'prod':  
+            requests.post(url='http://augusto-accorsi-microservice-tcc.sa-east-1.elasticbeanstalk.com:5001/database/engine', files={'image': ('file.PNG', mem_file, 'image/png')}, params={'id': id})
+        else:
+            requests.post(url='http://database:5001/database/engine', files={'image': ('file.PNG', mem_file, 'image/png')}, params={'id': id})
         
         return jsonify({
             "image_id": id,
