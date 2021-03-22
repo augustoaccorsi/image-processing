@@ -26,7 +26,7 @@ def allowed_file(filename):
     return '.' in filename and \
            filename.rsplit('.', 1)[1].lower() in ALLOWED_EXTENSIONS
 
-@app.route("/images", methods=['POST'])
+@app.route("/database", methods=['POST'])
 def upload_image():
     if request.method == 'POST':
         # Create a uuid to rename the file to
@@ -58,7 +58,7 @@ def upload_image():
             "filename": filename
         }), 201
 
-@app.route("/images/engine", methods=['POST'])
+@app.route("/database/engine", methods=['POST'])
 def upload_image_from_engine():
     if request.method == 'POST':
 
@@ -100,7 +100,7 @@ def upload_image_from_engine():
             "filename": filename
         }), 201
 
-@app.route("/images/<image_name>", methods=['GET'])
+@app.route("/database/<image_name>", methods=['GET'])
 def single_image(image_name):
 
     # Get the image_id and extension for the passed name (whilst making filename safe)
@@ -129,18 +129,18 @@ def single_image(image_name):
     # If no file format specified or if the same as original return the file else convert first
     if image_ext == image_metadata.file_ext:
         try:
-            path = './images/'+image_id+image_ext
+            path = './database/'+image_id+image_ext
             return send_file(path)
         except:
             return jsonify({'error': 'Image with that image_id not found'}), 404
     else:
-        image = Image.open('./images/'+image_id+image_metadata.file_ext)
+        image = Image.open('./database/'+image_id+image_metadata.file_ext)
         mem_file = BytesIO()
         image.save(mem_file, image_ext[1:])
         mem_file.seek(0)
         return send_file(mem_file, attachment_filename=image_id+image_ext)
 
-@app.route("/images/up")
+@app.route("/database/up")
 def healthcheck():
     return jsonify({'service': 'database', 'status': 'okay'}), 200
 

@@ -13,7 +13,7 @@ def allowed_file(filename):
     return '.' in filename and \
            filename.rsplit('.', 1)[1].lower() in ALLOWED_EXTENSIONS
 
-@app.route("/transform", methods=['POST'])
+@app.route("/engine", methods=['POST'])
 def transform_image():
     if request.method == 'POST':
 
@@ -39,7 +39,7 @@ def transform_image():
 
         image_id = request.form.get('image_id')
         if image_id is not None:
-            file = BytesIO(urllib.request.urlopen('http://database:5001/images/'+image_id).read())
+            file = BytesIO(urllib.request.urlopen('http://database:5001/database/'+image_id).read())
             image = Image.open(file)
 
         if image is None:
@@ -73,11 +73,11 @@ def transform_image():
         mem_file.seek(0)
         return send_file(mem_file, attachment_filename='_.jpg')
 
-@app.route("/transform/up")
+@app.route("/engine/up")
 def healthcheck():
     return jsonify({'service': 'engine', 'status': 'okay'}), 200
 
-@app.route("/transform/edge", methods=['GET'])
+@app.route("/engine/edge", methods=['GET'])
 def process_edge():
     if request.method == 'GET':
 
@@ -93,7 +93,7 @@ def process_edge():
                 image_id = str(value)[2:]
 
         if image_id is not None:    
-            file = BytesIO(urllib.request.urlopen('http://database:5001/images/'+image_id).read())
+            file = BytesIO(urllib.request.urlopen('http://database:5001/database/'+image_id).read())
             image = Process().edge(file)
 
             mem_file = BytesIO()
@@ -102,7 +102,7 @@ def process_edge():
 
             id = str(uuid.uuid4().hex)
 
-            requests.post(url='http://database:5001/images/engine', files={'image': ('file.PNG', mem_file, 'image/png')}, params={'id': id})
+            requests.post(url='http://database:5001/database/engine', files={'image': ('file.PNG', mem_file, 'image/png')}, params={'id': id})
             
             return jsonify({
                 "image_id": id,
@@ -111,7 +111,7 @@ def process_edge():
 
         return jsonify({"error": "image_id "+str(image_id)+" not found"}), 404
 
-@app.route("/transform/mandelbrot", methods=['POST'])
+@app.route("/engine/mandelbrot", methods=['POST'])
 def face():
     if request.method == 'POST':
 
@@ -142,7 +142,7 @@ def face():
         
         id = str(uuid.uuid4().hex)
 
-        requests.post(url='http://database:5001/images/engine', files={'image': ('file.PNG', mem_file, 'image/png')}, params={'id': id})
+        requests.post(url='http://database:5001/database/engine', files={'image': ('file.PNG', mem_file, 'image/png')}, params={'id': id})
         
         return jsonify({
             "image_id": id,
