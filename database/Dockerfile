@@ -1,5 +1,8 @@
 FROM python:3
 
+ENV FLASK_ENV=prod
+ENV DATABASE_URI=postgresql://postgres:productionpassword@database-db/postgres
+
 ADD . /code
 WORKDIR /code
 
