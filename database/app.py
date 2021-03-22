@@ -14,7 +14,10 @@ app.config['MAX_CONTENT_LENGTH'] = 64 * 1024 * 1024
 # Set up a connection to the db and import the models
 app.config['SQLALCHEMY_DATABASE_URI'] = os.environ['DATABASE_URI']
 db = SQLAlchemy(app)
+
 from models import ImageMetadata
+
+db.create_all()
 
 # Configure flask_uploads with an images set
 app.config['UPLOADS_DEFAULT_DEST'] = './'
