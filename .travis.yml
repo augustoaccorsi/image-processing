@@ -20,10 +20,10 @@ fi:
 deploy:
   provider: elasticbeanstalk
   region: sa-east-1
-  app: microservice-tcc-app
-  env: Microservicetccapp-env 
+  app: microservice-app
+  env: microservice-tcc-app-env
   bucket-name: elasticbeanstalk-sa-east-1-571785655335
-  bucket-path: microservice-tcc-app
+  bucket-path: microservice-app
   on:
     branch: main
   access_key_id: $AWS_ACCESS_KEY
