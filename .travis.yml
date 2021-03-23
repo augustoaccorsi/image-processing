@@ -1,31 +1,19 @@
+sudo: required
 
-language: python
-services:
+service:
   - docker
-before_script: pip install docker-compose
-script:
+
+before_installation:
   - docker-compose build
+
+script:
+  - docker-compose up
+
 after_success:
-  - if [[ "$TRAVIS_BRANCH" == "main" ]]; then
-      docker login -u $DOCKER_USERNAME -p $DOCKER_PASSWORD ;
-      docker-compose build ;
-      docker tag database $DOCKER_USERNAME/database-aws ;
-      docker tag engine $DOCKER_USERNAME/engine-aws ;
-      docker tag nginx $DOCKER_USERNAME/nginx-aws ;
-      docker push $DOCKER_USERNAME/database-aws ;
-      docker push $DOCKER_USERNAME/engine-aws ;
-      docker push $DOCKER_USERNAME/nginx-aws ;
-
-fi:
-
-deploy:
-  provider: elasticbeanstalk
-  region: sa-east-1
-  app: microservice-tcc-app
-  env: Microservicetccapp-env 
-  bucket-name: elasticbeanstalk-sa-east-1-571785655335
-  bucket-path: microservice-tcc-app
-  on:
-    branch: main
-  access_key_id: $AWS_ACCESS_KEY
-  secret_access_key: $AWS_SECRET_KEY
+  - echo "$DOCKER_PASSWORD" | docker login -u "$DOCKER_USERNAME" --password-stdin
+  - docker tag database $DOCKER_USERNAME/database-aws
+  - docker tag engine $DOCKER_USERNAME/engine-aws
+  - docker tag nginx $DOCKER_USERNAME/nginx-aws
+  - docker push $DOCKER_USERNAME/database-aws
+  - docker push $DOCKER_USERNAME/engine-aws
+  - docker push $DOCKER_USERNAME/nginx-aws
