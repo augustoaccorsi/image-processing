@@ -1,0 +1,25 @@
+version: "3"
+
+services:
+
+  web-app:
+    image: web-app
+    build: ./web-app
+    container_name: web-app
+    volumes:
+      - "./web-app:/code"
+    expose:
+      - "3000"
+    ports:
+      - "3000:3000"
+
+  nginx:
+    image: nginx
+    build: ./nginx
+    container_name: nginx
+    expose:
+      - "80"
+    ports:
+      - "80:80"
+    depends_on:
+      - web-app

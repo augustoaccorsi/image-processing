@@ -1,25 +1,26 @@
 version: "3"
 
 services:
-
-  web-app:
-    image: web-app
-    build: ./web-app
-    container_name: web-app
-    volumes:
-      - "./web-app:/code"
-    expose:
-      - "3000"
+  database-db:
+    image: postgres
+    container_name: database-db
+    environment:
+      - POSTGRES_PASSWORD=productionpassword
     ports:
-      - "3000:3000"
+      - "5432:5432"
 
-  nginx:
-    image: nginx
-    build: ./nginx
-    container_name: nginx
-    expose:
-      - "80"
-    ports:
-      - "80:80"
+  database:
+    image: database
+    build: ./database
+    container_name: database
+    environment:
+      - FLASK_ENV=prod
+      - DATABASE_URI=postgresql://postgres:productionpassword@database-db/postgres
     depends_on:
-      - web-app
+      - database-db
+    volumes:
+      - "./database:/code"
+    expose:
+      - "5001"
+    ports:
+      - "80:5001"
