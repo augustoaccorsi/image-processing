@@ -1,0 +1,26 @@
+version: "3"
+
+services:
+  database-db:
+    image: postgres
+    container_name: database-db
+    environment:
+      - POSTGRES_PASSWORD=productionpassword
+    ports:
+      - "5432:5432"
+
+  database:
+    image: database
+    build: ./database
+    container_name: database
+    environment:
+      - FLASK_ENV=prod
+      - DATABASE_URI=postgresql://postgres:productionpassword@database-db/postgres
+    depends_on:
+      - database-db
+    volumes:
+      - "./database:/code"
+    expose:
+      - "5001"
+    ports:
+      - "80:5001"
