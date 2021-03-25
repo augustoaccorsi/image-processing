@@ -15,6 +15,10 @@
 
 .App-header {
   background-color: #282c34;
+  background-image: url("https://cdn.lifehack.org/wp-content/uploads/2013/04/22.jpg");
+  background-repeat: no-repeat;
+  background-size: auto;
+  background-size: cover;
   min-height: 100vh;
   display: flex;
   flex-direction: column;
@@ -24,8 +28,24 @@
   color: white;
 }
 
+.App-title {
+  font-size: calc(4px + 2vmin);
+  position:fixed;
+   left:0px;
+   top:100px;
+   height:30px;
+   width:100%;
+
+}
+
 .App-link {
   color: #61dafb;
+  font-size: calc(4px + 2vmin);
+  position:fixed;
+   left:0px;
+   bottom:100px;
+   height:30px;
+   width:100%;
 }
 
 @keyframes App-logo-spin {
