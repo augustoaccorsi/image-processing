@@ -1,30 +1,31 @@
-language: python
-services:
-  - docker
-before_script: pip install docker-compose
-script:
-  - docker-compose build
-after_success:
-  - if [[ "$TRAVIS_BRANCH" == "main" ]]; then
-      docker login -u $DOCKER_USERNAME -p $DOCKER_PASSWORD ;
-      docker-compose build ;
-      docker tag database $DOCKER_USERNAME/database-aws ;
-      docker tag engine $DOCKER_USERNAME/engine-aws ;
-      docker tag nginx $DOCKER_USERNAME/nginx-aws ;
-      docker push $DOCKER_USERNAME/database-aws ;
-      docker push $DOCKER_USERNAME/engine-aws ;
-      docker push $DOCKER_USERNAME/nginx-aws ;
+#language: python
+#language: python
+#services:
+#  - docker
+#before_script: pip install docker-compose
+#script:
+#  - docker-compose build
+#after_success:
+#  - if [[ "$TRAVIS_BRANCH" == "main" ]]; then
+#      docker login -u $DOCKER_USERNAME -p $DOCKER_PASSWORD ;
+#      docker-compose build ;
+#      docker tag database $DOCKER_USERNAME/database-aws ;
+#      docker tag engine $DOCKER_USERNAME/engine-aws ;
+#      docker tag nginx $DOCKER_USERNAME/nginx-aws ;
+#      docker push $DOCKER_USERNAME/database-aws ;
+#      docker push $DOCKER_USERNAME/engine-aws ;
+#      docker push $DOCKER_USERNAME/nginx-aws ;
 
-fi:
+#fi:
 
-deploy:
-  provider: elasticbeanstalk
-  region: sa-east-1
-  app: microservice-app
-  env: microservice-tcc-app-env
-  bucket-name: elasticbeanstalk-sa-east-1-571785655335
-  bucket-path: microservice-app
-  on:
-    branch: main
-  access_key_id: $AWS_ACCESS_KEY
-  secret_access_key: $AWS_SECRET_KEY
+#deploy:
+#  provider: elasticbeanstalk
+#  region: sa-east-1
+#  app: microservice-app
+#  env: microservice-tcc-app-env
+#  bucket-name: elasticbeanstalk-sa-east-1-571785655335
+#  bucket-path: microservice-app
+#  on:
+#    branch: main
+#  access_key_id: $AWS_ACCESS_KEY
+#  secret_access_key: $AWS_SECRET_KEY
