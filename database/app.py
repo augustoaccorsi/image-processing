@@ -149,4 +149,4 @@ def healthcheck():
 
 @app.route("/")
 def heartbeat():
-    return jsonify({'database heartbeat': 'okay', 'engine heartbeat': 'okay'}), 200
+    return jsonify({'database heartbeat': 'okay'}), 200
