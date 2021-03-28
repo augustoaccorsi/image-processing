@@ -1,0 +1,16 @@
+version: "3"
+
+services:
+
+  engine:
+    image: engine
+    build: ./engine
+    container_name: engine
+    environment:
+      - FLASK_ENV=prod
+    volumes:
+      - "./engine:/code"
+    expose:
+      - "5000"
+    ports:
+      - "5000:5000"
