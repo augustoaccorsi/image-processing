@@ -4,7 +4,7 @@ from flask_sqlalchemy import SQLAlchemy
 from werkzeug.utils import secure_filename
 from PIL import Image
 from io import BytesIO
-import uuid, os
+import uuid, os, json
 
 app = Flask(__name__)
 
@@ -143,10 +143,24 @@ def single_image(image_name):
         mem_file.seek(0)
         return send_file(mem_file, attachment_filename=image_id+image_ext)
 
+
+@app.route("/database/all", methods=['GET'])
+def get_all():
+
+    images = ImageMetadata.query.all()
+
+    data = jsonify({})
+    
+    if len(images) == 0:
+        return jsonify({'error': 'no image found'}), 404
+
+    
+    return jsonify(images), 200
+
 @app.route("/database/up")
 def healthcheck():
     return jsonify({'service': 'database', 'status': 'okay'}), 200
-
+    
 @app.route("/")
 def heartbeat():
     return jsonify({'database heartbeat': 'okay'}), 200

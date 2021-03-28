@@ -20,7 +20,5 @@ RUN pip install numpy
 RUN pip install requests-toolbelt
 RUN pip install gunicorn
 
-EXPOSE 5000
-
 ENTRYPOINT ["python"]
 CMD ["run.py"]
