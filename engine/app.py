@@ -165,7 +165,7 @@ def face():
 
 @app.route("/")
 def heartbeat():
-    return jsonify({'engine heartbeat': 'okay'}), 200
+    return jsonify({'engine heartbeat <3': 'okay'}), 200
 
 if __name__ == '__main__':
     app.run(host='0.0.0.0', debug=True)
