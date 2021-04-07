@@ -153,7 +153,7 @@ def face():
         id = str(uuid.uuid4().hex)
 
        # if os.environ['FLASK_ENV'] == 'prod':  
-       #     #requests.post(url='http://augusto-accorsi-microservice-tcc.sa-east-1.elasticbeanstalk.com:5001/database/engine', files={'image': ('file.PNG', mem_file, 'image/png')}, params={'id': id})
+       # requests.post(url='http://augusto-accorsi-microservice-tcc.sa-east-1.elasticbeanstalk.com:5001/database/engine', files={'image': ('file.PNG', mem_file, 'image/png')}, params={'id': id})
        #     requests.post(url='http://augusto-accorsi-database-elb-767320255.sa-east-1.elb.amazonaws.com:5001/database/engine', files={'image': ('file.PNG', mem_file, 'image/png')}, params={'id': id})
       #  else:
         #    requests.post(url='http://augusto-accorsi-database-elb-767320255.sa-east-1.elb.amazonaws.com:5001/database/engine', files={'image': ('file.PNG', mem_file, 'image/png')}, params={'id': id})
