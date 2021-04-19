@@ -29,5 +29,5 @@ sudo chmod +x /usr/local/bin/docker-compose
 docker-compose version
 git clone https://github.com/augustoaccorsi/microservices.git
 cd microservices
-docker run -d -p 5000:5000 augustoaccorsi/engine-aws:latest
+docker run -d -p 5000:5000 augustoaccorsi/engine:latest
 --//
