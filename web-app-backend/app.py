@@ -61,12 +61,16 @@ def database_save():
         if not allowed_file(file.filename):
             return jsonify({'error': 'This file type is not allowed'}), 400
 
-        url = "http://augusto-accorsi-database-elb-1912352354.sa-east-1.elb.amazonaws.com:5001/database/"
+        url = "http://augusto-accorsi-database-elb-1912352354.sa-east-1.elb.amazonaws.com:5001/database"
         
         id = uuid.uuid4().hex
 
-        res = requests.post(url=url, files={'image': ('file.PNG', file, 'image/png')}, params={'id': id})
-            
+        #res = requests.post(url=url, files={'image': ('file.PNG', file, 'image/png')}, params={'id': id})
+        session = requests.Session()
+        session.trust_env = False
+        #res = session.get(url)
+        res = session.post(url=url, files={'image': ('file.PNG', file, 'image/png')}, params={'id': id})
+
         return jsonify({
             "image_id": id,
             "filename": id+'.png',
