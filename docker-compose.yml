@@ -48,6 +48,17 @@ services:
       - "3000"
     ports:
       - "3000:3000"
+  
+  web-app-backend:
+    image: web-app-backend
+    build: ./web-app-backend
+    container_name: web-app-backend
+    volumes:
+      - "./web-app-backend:/code"
+    expose:
+      - "3001"
+    ports:
+      - "3001:3001"
 
   nginx:
     image: nginx

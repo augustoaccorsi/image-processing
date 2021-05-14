@@ -121,8 +121,8 @@ def process_edge():
 
         return jsonify({"error": "image_id "+str(image_id)+" not found"}), 404
 
-@app.route("/engine/mandelbrot", methods=['POST'])
-def face():
+@app.route("/engine/mand", methods=['POST'])
+def mandelbrot():
     if request.method == 'POST':
 
         width = None
@@ -164,7 +164,7 @@ def face():
 
 @app.route("/")
 def heartbeat():
-    return jsonify({'engine v2 heartbeat <3': 'okay'}), 200
+    return jsonify({'engine v3 heartbeat <3': 'okay'}), 200
 
 if __name__ == '__main__':
     app.run(host='0.0.0.0', debug=True)
