@@ -7,7 +7,7 @@ ADD . /code
 WORKDIR /code
 
 RUN pip install pipenv
-RUN pip install flask
+RUN pip install Flask==1.1.2
 RUN pip install -U flask_uploads
 RUN pip install flask_sqlalchemy
 RUN pip install werkzeug==0.16.1
