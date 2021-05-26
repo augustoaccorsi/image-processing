@@ -47,7 +47,7 @@ def mandelbrot():
         return jsonify({
             "call on": url,
             "status code": res.status_code
-        }), 200
+        }), 201
 
 @app.route("/database/save", methods=['POST'])
 def database_save():
